@@ -68,6 +68,7 @@ export function Select({ name, control, placeholder, error, options }: SelectPro
 										contentContainerStyle={{ gap: 4 }}
 										data={options}
 										keyExtractor={(item) => item.value.toString()}
+										
 										renderItem={ ({ item }) => (
 											<TouchableOpacity 
 												style={styles.option}
@@ -80,6 +81,7 @@ export function Select({ name, control, placeholder, error, options }: SelectPro
 
 											</TouchableOpacity>
 										)}
+										
 									/>
 
 								</TouchableOpacity>
@@ -88,6 +90,7 @@ export function Select({ name, control, placeholder, error, options }: SelectPro
 
 						</Modal>
 					</>
+
 				)}
 			/>
 

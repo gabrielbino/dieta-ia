@@ -66,8 +66,8 @@ export default function Create() {
 		<View style={styles.container}>
 				
 			<Header 
-					step="Passo 2"
-					title="Finalizando dieta"
+				step="Passo 2"
+				title="Finalizando dieta"
 			/>
 
 			<ScrollView style={styles.content}>
