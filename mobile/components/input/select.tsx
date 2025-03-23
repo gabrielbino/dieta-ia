@@ -83,14 +83,10 @@ export function Select({ name, control, placeholder, error, options }: SelectPro
 										)}
 										
 									/>
-
 								</TouchableOpacity>
-										
 							</TouchableOpacity>
-
 						</Modal>
 					</>
-
 				)}
 			/>
 
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
 	option: {
 		paddingVertical: 14,
 		backgroundColor: "rgba(208, 208, 208, 0.40)",
-		borderRadius: 4,
+		borderRadius: 24,
 		paddingHorizontal: 8
 	}
 })

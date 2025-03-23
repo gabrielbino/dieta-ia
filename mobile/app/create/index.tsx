@@ -107,7 +107,6 @@ export default function Create() {
 				</Pressable>
 
 			</ScrollView>
-				
 		</View>
 	);
 }

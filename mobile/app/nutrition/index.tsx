@@ -3,14 +3,15 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  ScrollView
+  ScrollView,
+  Share,
 } from "react-native";
 import { useDataStore } from "../../store/data";
 import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { colors } from "@/constants/colors";
 import { Data } from "@/types/data";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
 
 interface ResponseData {
@@ -39,7 +40,7 @@ export default function Nutrition() {
           height: userData.height,
           weight: userData.weight,
           objective: userData.objective,
-          level: userData.level
+          level: userData.level,
         })
 
         return response.data.data
@@ -49,6 +50,26 @@ export default function Nutrition() {
       }
     }
   })
+
+  async function handleShare() {
+    try {
+
+      if(data && Object.keys(data).length === 0) return;
+
+      const suplements = `${data?.suplementos.map( item => `${item}`)}`
+
+      const foods = `${data?.refeicoes.map( item => `\n- Nome: ${item.nome}\n- Horário: ${item.horario}\n- Alimentos: ${item.alimentos.map( alimento => `${alimento}` )}`)}`
+
+      const message = `Dieta: ${data?.nome} - Objetivo: ${data?.objetivo}\n\n${foods}\n\n- Dica de suplementos: ${suplements}`
+
+      await Share.share({
+        message: message
+      })
+
+    } catch(err){
+      console.log(err)
+    }
+  }
   
   if(isFetching) {
     return(
@@ -69,9 +90,7 @@ export default function Nutrition() {
         <Text style={styles.loadingText}>Falha ao gerar dieta!</Text>
 
         <Link href="/">
-          
           <Text style={styles.loadingText}>Tente novamente</Text>
-
         </Link>
 
       </View>
@@ -87,17 +106,16 @@ export default function Nutrition() {
 
           <Text style={styles.title}>Minha dieta</Text>
 
-          <Pressable style={styles.buttonShare}>
+          <Pressable style={styles.buttonShare} onPress={handleShare}>
 
             <Text style={styles.buttonShareText}>Compartilhar</Text>
 
           </Pressable>
 
         </View>
-
       </View>
 
-      <View style={styles.view}>
+      <View style={styles.body}>
         
         {data && Object.keys(data).length > 0 && (
           <>
@@ -114,7 +132,7 @@ export default function Nutrition() {
               <View style={styles.foods}>
               
                 <Text style={styles.label}>
-                  Refeições:
+                  Refeições
                 </Text>
                 
                 {data.refeicoes.map((refeicao) => (
@@ -123,7 +141,7 @@ export default function Nutrition() {
                     
                     <View style={styles.foodHeader}>
 
-                      <Text>{refeicao.nome}</Text>
+                      <Text style={styles.foodTitle}>{refeicao.nome}</Text>
 
                       <Ionicons name="restaurant" size={16} color="#000"/>
 
@@ -148,17 +166,14 @@ export default function Nutrition() {
                       </Text>
 
                     ))}
-
                   </View>
-
                 ))}
-
               </View>
 
               <View style={styles.suplements}>
                 
-                <Text style={styles.foodName}>
-                  Dica de suplementos:
+                <Text style={styles.label}>
+                  Dica de suplementos
                 </Text>
 
                 {data.suplementos.map(item => (
@@ -168,10 +183,9 @@ export default function Nutrition() {
                   </Text>
 
                 ))}
-                
               </View>
 
-              <Pressable style={styles.button}>
+              <Pressable style={styles.button} onPress={() => router.replace("/")}>
 
                 <Text style={styles.buttonText}>
                   Gerar nova dieta
@@ -182,9 +196,7 @@ export default function Nutrition() {
             </ScrollView>
           </>
         )}
-
       </View>
-
     </View>
   );
 }
@@ -194,6 +206,8 @@ const styles = StyleSheet.create({
   loading: {
     flex: 1,
     backgroundColor: colors.background,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   loadingText: {
@@ -245,7 +259,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-  view: {
+  body: {
     paddingLeft: 16,
     paddingRight: 16,
     flex: 1,
@@ -290,8 +304,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 
-  foodName: {
-    fontSize: 16,
+  foodTitle: {
+    color: colors.black,
+    fontSize: 14,
     fontWeight: "bold",
   },
 
@@ -320,9 +335,13 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 8,
+    marginBottom: 24,
   },
 
   buttonText: {
     color: colors.white,
+    fontSize: 16, 
+    fontWeight: "bold",
   }
 })

@@ -35,7 +35,6 @@ export default function Step() {
     const setPageOne = useDataStore(state => state.setPageOne)
 
     function handleCreate(data: FormData) {      
-        console.log("PASSANDO DADOS DA PÁGINA 1");
 
         setPageOne({
             name: data.name,
