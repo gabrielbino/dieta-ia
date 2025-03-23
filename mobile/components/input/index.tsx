@@ -41,7 +41,7 @@ export function Input({ name, control, placeholder, rules, error, keyboardType }
 				)}
 			/>
 
-			{error && <Text style={styles.errorText}>{error}</Text>} {/* usar chaves para renderizar javascript dentro do .tsx */}
+			{error && <Text style={styles.errorText}>{error}</Text>}
 
 		</View>
 	);

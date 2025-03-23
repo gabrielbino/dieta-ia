@@ -90,7 +90,7 @@ export function Select({ name, control, placeholder, error, options }: SelectPro
 				)}
 			/>
 
-			{error && <Text style={styles.errorText}>{error}</Text>} {/* usar chaves para renderizar javascript dentro do .tsx */}
+			{error && <Text style={styles.errorText}>{error}</Text>}
 
 		</View>
 	);
